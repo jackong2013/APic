@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{ data.name }}'s Apic Space</title>
+	<link rel="stylesheet" type="text/css" href="../static/console.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600' rel='stylesheet' type='text/css'>
+	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="../static/Chart.min.js"></script>
+
+</head>
+
+<body>
+	<header class="console-header">
+		<div class="console-title">
+			<p>
+				{{ data.name }}'s Apic Space
+			</p>
+		</div>
+		<div class="button-wrapper">
+				<a href="http://apic.space" class="button light">Logout</a>
+			</div>
+		</div>
+	</header>
+
+	<div class="console-menu">
+			<ul class="menu-list">
+				<div class="menu-item" id="my-space">
+					<li id="my-space">
+						<div class="menu-option"><i class="material-icons">home</i>&nbsp;My Space</div>
+					</li>
+				</div>
+				<div class="menu-item" id="challenges">
+					<li id="challenges">
+						<div class="menu-option"><i class="material-icons">photo_filter</i>&nbsp;Challenges</div>
+					</li>
+				</div>
+				<div class="menu-item" id="store">
+					<li id="store">
+						<div class="menu-option"><i class="material-icons">store</i>&nbsp;Store</div>
+					</li>
+				</div>
+				<div class="menu-item" id="analytics">
+					<li id="analytics">
+						<div class="menu-option"><i class="material-icons">timeline</i>&nbsp;Analytics</div>
+					</li>
+				</div>
+				<div class="menu-item" id="settings">
+					<li id="settings">
+						<div class="menu-option"><i class="material-icons">settings</i>&nbsp;Settings</div>
+					</li>
+				</div><div class="menu-item" id="chat">
+					<li id="chat">
+						<div class="menu-option"><i class="material-icons">chat</i>&nbsp;Chats</div>
+					</li>
+				</div>
+			</ul>
+	</div>
+
+	<div class="main-content" id="my-space">
+		<div class="left-content">
+			<div class="top-left">
+				<div class="incoming-container">
+					<div class="incoming">
+						<ul class="incoming-list">
+							{% for person in data.incoming %}
+								<div class="incoming-person" id="{{ person.name }}">
+									<li>
+										<img src="../static/img/{{ person.img }}" class="profile-pic">
+										<div class="incoming-desc">
+											<p><span class="incoming-name">{{ person.name }}</span> and {{ person.friend }} other friends arriving in<span class='arriving-in'> {{ person.eta }} minutes</span>!!</p>
+										</div>
+										<div class="chat" id="{{ person.name }}"><i class="material-icons">chat</i></div>
+									</li>
+								</div>
+							{% endfor %}
+						</ul>
+					</div>
+					<div class="incoming-active">
+					</div>
+				</div>
+			</div>
+			<div class="bottom-left">
+				<div class="chart-container">
+					<div class="chart-heading-container">
+						<h3 class="chart-heading">Woohoo! You have 1093 impressions!!</h3>
+					</div>
+					<div class="line-container">
+						<canvas class="my-space-chart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="twitter-feed">
+			<a class="twitter-timeline" href="https://twitter.com/hashtag/apiclaunch" height="100%" data-widget-id="703976289628082176"></a>
+		</div>
+	</div>
+
+	<div class="main-content challenges-page" id="challenges">
+		<div class="challenge-header">
+			<div class="challenge-banner">
+				<h3>Challenges</h3>
+				<p>Set up photo challenges below. Create interesting challenges to boost your popularity and attract more people!</p>
+				<p>Also check out the Challenge Twitter feed on the side. It gives you real time updates on activities related to your challenges</p>
+			</div><div class="challenge-twitter-feed">
+				<a class="twitter-timeline" href="https://twitter.com/jackong2013" data-widget-id="703970471792943104" data-screen-name="chuesaihou" height="100%">Tweets by @jackong2013</a>
+			</div>
+		</div>
+		<div class="challenge-form-container">
+			<form action="" class="challenge-form">
+				<h4>Create a challenge!</h4>
+				<div class="photo-upload-container">
+					<p><label>Challenge Photo: &nbsp;&nbsp;</label><input type="text" placeholder=" Drag a picture or click the upload button"> &nbsp;<button>Upload a picture</button></p>
+					<p><label>Challenge Title: &nbsp;&nbsp;</label><input type="text" placeholder=" e.g: Super Spicy Challenge!"></p>
+					<p><label>Challenge Description: &nbsp;&nbsp;</label><input type="text"></p>
+					<p><label>Start Date: &nbsp;&nbsp;</label><input type="date" placeholder=" mm/dd/yyyy"></p>
+					<p><label>Expiry Date: &nbsp;&nbsp;</label><input type="date" placeholder=" mm/dd/yyyy"></p>
+					<p class="hashtag-input"><label>Twitter hashtag: &nbsp;&nbsp;</label>#APic-<input type="text"></p>
+				</div>
+				<input class="challenge-submit-button" type="submit">
+				<br>
+			</form>
+		</div>
+
+	</div>
+
+	<div class="main-content" id="chat">
+	</div>
+
+	<div class="chatroom" id="chat">
+		<div class="contacts">
+			<ul class="contacts-list">
+				{% for person in data.incoming %}
+					<div class="contact" id="{{ person.name }}">
+						<li>
+							<img src="../static/img/{{ person.img }}" class="contact-pic">
+							<div class="contact-name">
+								<p>{{ person.name }}</p>
+							</div>
+						</li>
+					</div>
+				{% endfor %}
+			</ul>
+		</div><div class="chatbox">
+			<div class="chathead">
+				<p>Start a chat now while your customer is on his/her way here!</p>
+			</div>
+			<div class="messages">
+			</div>
+			<div class="textbox">
+				<textarea id="txtarea" cols="110" rows="5" placeholder="Say something while he/she is on the way!"></textarea>
+				<button class="send">Send</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="main-content" id="store">
+		<p>store</p>
+	</div>
+
+	<div class="main-content" id="analytics">
+		<p>analytics</p>
+	</div>
+
+	<div class="main-content" id="settings">
+		<p>settings</p>
+	</div>
+
+<script type="text/javascript">
+	$(".main-content#my-space").css("display", "block");
+	$(".chatroom").css("display", "none");
+	$(".menu-item#my-space").css("background-color", "#4423A4");
+	$(".menu-item#my-space").css("color", "#fff");
+	$("div.menu-item").click(function() {
+		$(".main-content").css("display", "none");
+		$(".chatroom").css("display", "none");
+		$(".main-content#" + this.id).css("display", "block");
+		$(".chatroom#" + this.id).css("display", "block");		$(".menu-item").css("background-color", "#EFEFEF");
+		$(".menu-item").css("color", "#2F2F2F");
+		$(".menu-item#" + this.id).css("background-color", "#4423A4");
+		$(".menu-item#" + this.id).css("color", "#fff");
+		$(this).addClass('no-hover'); // add the class 'no-hover'
+	})
+	$(".menu-item").on({
+     mouseleave: function(){
+     	if ($(this).hasClass('no-hover')) {
+     		$(this).removeClass('no-hover');	
+     	};
+    }});
+
+	$("div.chat").click(function() {
+		$(".main-content").css("display", "none");
+		$(".main-content#my-space").css("display", "block");
+		$(".main-content#chat").css("display", "block");
+		$(".main-content#chat").css("background-color", "grey");
+		$(".main-content#chat").css("opacity", "0.5");
+		$(".main-content#chat").css("z-index", "300");
+		$(".chatroom").css("display", "block");
+		$(".menu-item").css("background-color", "#EFEFEF");
+		$(".menu-item").css("color", "#2F2F2F");
+		$(".menu-item#chat").css("background-color", "#4423A4");
+		$(".menu-item#chat").css("color", "#fff");
+		$(".menu-item#chat").addClass('no-hover');
+		$(".contact[id='" + this.id + "']").css("background-color", "rgba(67,137,162,0.4)");
+	})
+
+	$(".main-content#chat").click(function() {
+		$(".main-content#my-space").css("display", "block");
+		$(".main-content#chat").css("display", "none");
+		$(".chatroom#chat").css("display", "none");
+		$(".menu-item#chat").css("background-color", "#EFEFEF");
+		$(".menu-item#chat").css("color", "#2F2F2F");
+		$(".menu-item#my-space").css("background-color", "#4423A4");
+		$(".menu-item#my-space").css("color", "#fff");
+		$(".contact").css("background-color", "#f2f2f2");
+	})
+
+	$(".contact").click(function() {
+		$(".contact").css("background-color", "#f2f2f2");
+		$(this).css("background-color", "rgba(67,137,162,0.4)");
+	})
+</script>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+</script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[1],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</body>
+
+<script>
+	var data = {
+	    labels: ["2016-02-20", "2016-02-21", "2016-02-22", "2016-02-23", "2016-02-24", "2016-02-25", "2016-02-26", "2016-02-27", "2016-02-28"],
+	    datasets: [
+	        {
+	            label: "Total",
+	            fillColor: "rgba(220,220,220,0.2)",
+	            strokeColor: "rgba(220,220,220,1)",
+	            pointColor: "rgba(220,220,220,1)",
+	            pointStrokeColor: "#fff",
+	            pointHighlightFill: "#fff",
+	            pointHighlightStroke: "rgba(220,220,220,1)",
+	            data: [61, 79, 103, 85, 101, 118, 118, 131, 157]
+	        },
+	        {
+	            label: "Likes",
+	            fillColor: "rgba(181,181,181,0.2)",
+	            strokeColor: "rgba(181,181,181,1)",
+	            pointColor: "rgba(181,181,181,1)",
+	            pointStrokeColor: "#fff",
+	            pointHighlightFill: "#fff",
+	            pointHighlightStroke: "rgba(181,181,181,1)",
+	            data: [49, 62, 83, 70, 80, 94, 96, 105, 126]
+	        },
+	        {
+	            label: "Posts",
+	            fillColor: "rgba(140,140,140,0.2)",
+	            strokeColor: "rgba(140,140,140,1)",
+	            pointColor: "rgba(140,140,140,1)",
+	            pointStrokeColor: "#fff",
+	            pointHighlightFill: "#fff",
+	            pointHighlightStroke: "rgba(140,140,140,1)",
+	            data: [12, 17, 20, 15, 21, 24, 22, 26, 31]
+	        }
+	    ]
+	};
+	var ctx = $(".my-space-chart").get(0).getContext("2d");
+	var myLineChart = new Chart(ctx).Line(data, {
+		responsive: true,
+		maintainAspectRatio: false
+	});
+</script>
+
+</html>
